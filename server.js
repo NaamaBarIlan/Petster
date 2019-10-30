@@ -106,12 +106,9 @@ function renderSearchPage(request, response, next) {
   let queryGoodWithChildren = request.query.goodWithChildren ? request.query.goodWithChildren : false ;
   let queryGoodWithDogs = request.query.goodWithDogs ? request.query.goodWithChildren : false ;
   let queryGoodWithCats = request.query.goodWithCats ? request.query.goodWithChildren : false ;
-  let isInDataBase = [];
+  let isInDataBase = []
 
-  
-
-
-  let URL = `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&good_with_children=${queryGoodWithChildren}&good_with_dogs=${queryGoodWithDogs}&good_with_cats=${queryGoodWithCats}&limit=100&sort=random&status=adoptable`
+  let URL = `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&good_with_children=${queryGoodWithChildren}&good_with_cats=${queryGoodWithCats}&limit=100&sort=random&status=adoptable`
 
   console.log('!!!',URL)
 
@@ -119,10 +116,11 @@ function renderSearchPage(request, response, next) {
     .set('Authorization', `Bearer ${request.token}`)
     .then(apiResponse => {
       const petInstances = apiResponse.body.animals.map(pet => new Pet (pet, queryName, isInDataBase))
-
+      console.log(petInstances, 'pet list')
 
       console.log(isInDataBase)
       response.render('pages/search', { petResultAPI: petInstances, userName: queryName, isInDataBase: isInDataBase})
+      
       addUserName(queryName);
       next();
 
@@ -150,6 +148,7 @@ function Pet(query, queryName, isInDataBase){
   this.secondaryBreed = query.breeds.secondary;
   this.photos = [];
   this.inFavs = false;
+  
 
 
   // console.log(query.photos.length)
@@ -179,11 +178,14 @@ function Pet(query, queryName, isInDataBase){
     .then(results => {
       if (results.rows[0]){
         this.inFavs = true;
-        console.log('true')
+        console.log('It\'s in dv')
       } else {
         this.inFavs = false;
       }
       isInDataBase.push(this.inFavs);
+
+      console.log()
+      // console.log('array 2',isInDataBase)
     })
     .catch(error => handleError(error));
 
