@@ -103,12 +103,9 @@ function renderSearchPage(request, response, next) {
   let queryZipCode = request.query.city;
   let queryDistance = request.query.travelDistance;
   let queryName = request.query.userName;
-  let queryGoodWithChildren = request.query.goodWithChildren ? request.query.goodWithChildren : false ;
-  let queryGoodWithDogs = request.query.goodWithDogs ? request.query.goodWithChildren : false ;
-  let queryGoodWithCats = request.query.goodWithCats ? request.query.goodWithChildren : false ;
   let isInDataBase = []
 
-  let URL = `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&good_with_children=${queryGoodWithChildren}&good_with_cats=${queryGoodWithCats}&limit=100&sort=random&status=adoptable`
+  let URL = `https://api.petfinder.com/v2/animals?type=${queryType}&location=${queryZipCode}&distance=${queryDistance}&limit=100&sort=random&status=adoptable`
 
   console.log('!!!',URL)
 
